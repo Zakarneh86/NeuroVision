@@ -58,7 +58,12 @@ if uploaded_file:
             cls_id = int(box.cls[0])
             label = results[0].names[cls_id]
             conf = float(box.conf[0])
-            st.sidebar.success(f"**{label.capitalize()}**\nConfidence: `{conf:.2f}`")
+            color = "green" if cls_id == 0 else "red"
+            st.sidebar.markdown(
+                f"<div style='padding:10px; border-radius:5px; background-color:{color}; color:white;'>"
+                f"<b>{label.capitalize()}</b><br>Confidence: {conf:.2f}</div>",
+                unsafe_allow_html=True
+            )
     else:
         st.sidebar.warning("No tumor detected.")
 
@@ -91,7 +96,7 @@ st.markdown(
     """
     <div style='text-align: center; color: grey; font-size: 0.9em;'>
         Developed by <b>Mohamed Zakarneh</b> · Powered by <b>YOLOv8</b> · Deployed with <b>Streamlit</b><br>
-        🌐 <a href="https://https://github.com/Zakarneh86/NeuroVision" target="_blank">GitHub Repo</a>
+        🌐 <a href="https://github.com/Zakarneh86/NeuroVision" target="_blank">GitHub Repo</a>
     </div>
     """,
     unsafe_allow_html=True
