@@ -13,7 +13,10 @@ def load_model():
 
 model = load_model()
 
-st.sidebar.title("🧠 Tumor Detection")
+st.title("🧠 Brain Tumor Detection with YOLOv8")
+
+# Sidebar: Upload and results
+st.sidebar.header("Upload Image & View Result")
 uploaded_file = st.sidebar.file_uploader("Upload MRI Image", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
@@ -31,8 +34,8 @@ if uploaded_file is not None:
     prediction_img = results[0].plot()
     prediction_img_rgb = cv2.cvtColor(prediction_img, cv2.COLOR_BGR2RGB)
 
-    # Sidebar result
-    st.sidebar.markdown("### 🧪 Prediction Result:")
+    # Sidebar: show prediction info
+    st.sidebar.markdown("### 🧪 Prediction Result")
     if results[0].boxes:
         for box in results[0].boxes:
             cls_id = int(box.cls[0])
@@ -43,9 +46,9 @@ if uploaded_file is not None:
     else:
         st.sidebar.warning("No tumor detected.")
 
-    # Main layout: Side-by-side image display
+    # Main: Side-by-side image display
     col1, col2 = st.columns(2)
     with col1:
-        st.image(original_img_rgb, caption="Original Image", use_column_width=True)
+        st.image(original_img_rgb, caption="🧾 Original Image", use_column_width=True)
     with col2:
-        st.image(prediction_img_rgb, caption="Prediction Result", use_column_width=True)
+        st.image(prediction_img_rgb, caption="🎯 YOLO Prediction", use_column_width=True)
