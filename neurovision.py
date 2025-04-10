@@ -5,6 +5,16 @@ import cv2
 from PIL import Image
 import tempfile
 
+def draw_label_with_background(img, text, x, y, font=cv2.FONT_HERSHEY_SIMPLEX, font_scale=0.6, 
+                               text_color=(255, 255, 255), bg_color=(0, 0, 255), padding=3):
+    (text_w, text_h), baseline = cv2.getTextSize(text, font, font_scale, thickness=1)
+    cv2.rectangle(img, 
+                  (x, y - text_h - padding), 
+                  (x + text_w + 2 * padding, y + baseline), 
+                  bg_color, 
+                  thickness=-1)
+    cv2.putText(img, text, (x + padding, y - padding), font, font_scale, text_color, thickness=1, lineType=cv2.LINE_AA)
+
 # ========== PAGE CONFIG ==========
 st.set_page_config(
     page_title="Brain Tumor Detector",
@@ -61,9 +71,7 @@ if uploaded_file:
         conf = float(box.conf[0])
         color = (0, 255, 0) if cls_id == 0 else (0, 0, 255)  # Green or Red
         cv2.rectangle(image_with_boxes, (x1, y1), (x2, y2), color, 2)
-        cv2.putText(image_with_boxes, f"{label} {conf:.2f}",
-                    (x1, max(20, y1 - 10)), cv2.FONT_HERSHEY_SIMPLEX,
-                    0.6, color, 1, lineType= cv2.LINE_AA)
+        draw_label_with_background(image_with_boxes, f"{label.capitalize()} {conf:.2f}", x1, y1)
 
     prediction_img = Image.fromarray(cv2.cvtColor(image_with_boxes, cv2.COLOR_BGR2RGB))
 
