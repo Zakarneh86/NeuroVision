@@ -13,36 +13,39 @@ def load_model():
 
 model = load_model()
 
-#with st.sidebar():
-    
-# Streamlit UI
-st.title("🧠 Brain Tumor Detector (YOLOv8)")
-st.write("Upload an MRI scan and the model will detect tumors with bounding boxes.")
-
-uploaded_file = st.file_uploader("Upload MRI Image", type=["jpg", "jpeg", "png"])
+st.sidebar.title("🧠 Tumor Detection")
+uploaded_file = st.sidebar.file_uploader("Upload MRI Image", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
-    # Read image
+    # Read original image
     file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
     img = cv2.imdecode(file_bytes, 1)
+    original_img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-    st.image(img, caption="Uploaded Image", use_column_width=True)
+    # Save temp file for YOLO
+    with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as tmp:
+        cv2.imwrite(tmp.name, img)
+        results = model.predict(source=tmp.name, conf=0.25, save=False, verbose=False)
 
-    # Run YOLOv8 prediction
-    with st.spinner("Running detection..."):
-        # Save temp file
-        with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as tmp:
-            cv2.imwrite(tmp.name, img)
-            results = model.predict(source=tmp.name, save=False, conf=0.25, verbose=False)
+    # Get prediction image (with bounding boxes)
+    prediction_img = results[0].plot()
+    prediction_img_rgb = cv2.cvtColor(prediction_img, cv2.COLOR_BGR2RGB)
 
-        img_annotated = results[0].plot()
-
-        st.image(cv2.cvtColor(img_annotated, cv2.COLOR_BGR2RGB), caption="Prediction", use_column_width=True)
-
-        # Print prediction details
-        st.subheader("Prediction Details:")
+    # Sidebar result
+    st.sidebar.markdown("### 🧪 Prediction Result:")
+    if results[0].boxes:
         for box in results[0].boxes:
             cls_id = int(box.cls[0])
             label = results[0].names[cls_id]
             conf = float(box.conf[0])
-            st.write(f"🧠 **Detected Class:** {label} ({conf:.2f} confidence)")
+            st.sidebar.write(f"**Class**: {label}")
+            st.sidebar.write(f"**Confidence**: {conf:.2f}")
+    else:
+        st.sidebar.warning("No tumor detected.")
+
+    # Main layout: Side-by-side image display
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image(original_img_rgb, caption="Original Image", use_column_width=True)
+    with col2:
+        st.image(prediction_img_rgb, caption="Prediction Result", use_column_width=True)
