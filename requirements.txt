@@ -3,6 +3,7 @@ ultralytics
 opencv-python-headless
 matplotlib
 Pillow
+numpy ==2.1.1
 torch==2.2.0
-torchvision
-numpy
+torchvision == 0.17.0
+torchaudio==2.2.0
