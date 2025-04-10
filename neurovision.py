@@ -59,11 +59,11 @@ if uploaded_file:
         cls_id = int(box.cls[0])
         label = results[0].names[cls_id]
         conf = float(box.conf[0])
-        color = (180, 255, 255) if cls_id == 0 else (0, 0, 255)  # Green or Red
+        color = (255, 0, 0) if cls_id == 0 else (0, 0, 255)  # Green or Red
         cv2.rectangle(image_with_boxes, (x1, y1), (x2, y2), color, 2)
         cv2.putText(image_with_boxes, f"{label} {conf:.2f}",
                     (x1, max(20, y1 - 10)), cv2.FONT_HERSHEY_SIMPLEX,
-                    0.6, color, 2)
+                    0.6, color, 1, lineType= cv2.LINE_AA)
 
     prediction_img = Image.fromarray(cv2.cvtColor(image_with_boxes, cv2.COLOR_BGR2RGB))
 
