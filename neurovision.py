@@ -6,7 +6,7 @@ from PIL import Image
 import tempfile
 
 def draw_label_with_background(img, text, x, y, font=cv2.FONT_HERSHEY_SIMPLEX, font_scale=0.6, 
-                               text_color=(255, 255, 255), bg_color=(0, 0, 255), padding=3):
+                               text_color=(0, 0, 0), bg_color=(255, 255, 255), padding=3):
     (text_w, text_h), baseline = cv2.getTextSize(text, font, font_scale, thickness=1)
     cv2.rectangle(img, 
                   (x, y - text_h - padding), 
