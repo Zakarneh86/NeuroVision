@@ -8,7 +8,7 @@ import tempfile
 # Load model
 @st.cache_resource
 def load_model():
-    return YOLO("best.pt")  # Replace with your model path
+    return YOLO("./model/best.pt")  # Replace with your model path
 
 model = load_model()
 
