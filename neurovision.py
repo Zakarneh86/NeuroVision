@@ -12,22 +12,19 @@ st.set_page_config(
     layout="wide"
 )
 
-# Load model
-@st.cache_resource
-def load_model():
-    return YOLO("./model/best.pt")  # Replace with your model path
-
-model = load_model()
-
-
-
 # ========== TITLE ==========
 st.markdown(
     "<h1 style='text-align: center; color: #4B8BBE;'>🧠 Brain Tumor Detection with YOLOv8</h1>",
     unsafe_allow_html=True
 )
-
 st.markdown("<hr>", unsafe_allow_html=True)
+
+# ========== LOAD MODEL ==========
+@st.cache_resource
+def load_model():
+    return YOLO("./model/best.pt")  # Replace with your path
+
+model = load_model()
 
 # ========== SIDEBAR ==========
 st.sidebar.markdown("## 📤 Upload Your MRI")
@@ -38,13 +35,10 @@ if uploaded_file:
     img = cv2.imdecode(file_bytes, 1)
     original_img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-    # Save temporarily for YOLO
+    # Save image temporarily
     with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as tmp:
         cv2.imwrite(tmp.name, img)
         results = model.predict(source=tmp.name, conf=0.25, save=False, verbose=False)
-
-    # Annotated prediction image
-    prediction_img = Image.fromarray(results[0].plot())
 
     # ========== SIDEBAR PREDICTIONS ==========
     st.sidebar.markdown("---")
@@ -58,12 +52,27 @@ if uploaded_file:
     else:
         st.sidebar.warning("No tumor detected.")
 
+    # ========== DRAW CUSTOM BOX COLORS ==========
+    image_with_boxes = img.copy()
+    for box in results[0].boxes:
+        x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
+        cls_id = int(box.cls[0])
+        label = results[0].names[cls_id]
+        conf = float(box.conf[0])
+        color = (255, 0, 0) if cls_id == 0 else (0, 0, 255)  # Green or Red
+        cv2.rectangle(image_with_boxes, (x1, y1), (x2, y2), color, 2)
+        cv2.putText(image_with_boxes, f"{label} {conf:.2f}",
+                    (x1, max(20, y1 - 10)), cv2.FONT_HERSHEY_SIMPLEX,
+                    0.6, color, 2)
+
+    prediction_img = Image.fromarray(cv2.cvtColor(image_with_boxes, cv2.COLOR_BGR2RGB))
+
     # ========== DISPLAY SIDE-BY-SIDE ==========
     col1, col2 = st.columns(2)
     with col1:
-        st.image(original_img_rgb, caption="📷 Original Image", use_container_width=True)
+        st.image(original_img_rgb, caption="📷 Original Image", use_column_width=True)
     with col2:
-        st.image(prediction_img, caption="🎯 YOLOv8 Prediction", use_container_width=True)
+        st.image(prediction_img, caption="🎯 YOLOv8 Prediction", use_column_width=True)
 
 else:
     st.info("👈 Upload an MRI image to get started.")
@@ -73,8 +82,8 @@ st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown(
     """
     <div style='text-align: center; color: grey; font-size: 0.9em;'>
-        Developed by <b>You</b> · Powered by <b>YOLOv8</b> · Deployed with <b>Streamlit</b><br>
-        🌐 <a href="https://github.com/your-repo" target="_blank">GitHub Repo</a>
+        Developed by <b>Mohamed Zakarneh</b> · Powered by <b>YOLOv8</b> · Deployed with <b>Streamlit</b><br>
+        🌐 <a href="https://https://github.com/Zakarneh86/NeuroVision" target="_blank">GitHub Repo</a>
     </div>
     """,
     unsafe_allow_html=True
