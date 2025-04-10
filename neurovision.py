@@ -60,7 +60,7 @@ if uploaded_file:
             conf = float(box.conf[0])
             if cls_id == 0:
                 st.sidebar.success(f"**{label.capitalize()}**\nConfidence: `{conf:.2f}`")
-            else:
+            elif cls_id == 1:
                 st.sidebar.warning(f"**{label.capitalize()}**\nConfidence: `{conf:.2f}`")
     else:
         st.sidebar.warning("No tumor detected.")
