@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 # Load your trained model
 @st.cache_resource
 def load_model():
-    return YOLO("runs/detect/yolo_tumor_model/weights/best.pt")
+    return YOLO("./model/best.pt")
 
 model = load_model()
 
