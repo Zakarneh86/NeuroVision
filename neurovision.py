@@ -43,9 +43,7 @@ if uploaded_file:
         cv2.imwrite(tmp.name, img)
         results = model.predict(source=tmp.name, conf=0.25, save=False, verbose=False)
 
-    '''# Annotated prediction image
-    prediction_img = results[0].plot()
-    prediction_img_rgb = cv2.cvtColor(prediction_img, cv2.COLOR_BGR2RGB)'''
+    # Annotated prediction image
     prediction_img = Image.fromarray(results[0].plot())
 
     # ========== SIDEBAR PREDICTIONS ==========
@@ -63,9 +61,9 @@ if uploaded_file:
     # ========== DISPLAY SIDE-BY-SIDE ==========
     col1, col2 = st.columns(2)
     with col1:
-        st.image(original_img_rgb, caption="📷 Original Image", use_column_width=True)
+        st.image(original_img_rgb, caption="📷 Original Image", use_container_width=True)
     with col2:
-        st.image(prediction_img, caption="🎯 YOLOv8 Prediction", use_column_width=True)
+        st.image(prediction_img, caption="🎯 YOLOv8 Prediction", use_container_width=True)
 
 else:
     st.info("👈 Upload an MRI image to get started.")
