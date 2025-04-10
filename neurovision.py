@@ -58,7 +58,10 @@ if uploaded_file:
             cls_id = int(box.cls[0])
             label = results[0].names[cls_id]
             conf = float(box.conf[0])
-            st.sidebar.success(f"**{label.capitalize()}**\nConfidence: `{conf:.2f}`")
+            if cls_id == 0:
+                st.sidebar.success(f"**{label.capitalize()}**\nConfidence: `{conf:.2f}`")
+            else:
+                st.sidebar.warning(f"**{label.capitalize()}**\nConfidence: `{conf:.2f}`")
     else:
         st.sidebar.warning("No tumor detected.")
 
