@@ -3,5 +3,5 @@ ultralytics
 opencv-python-headless
 matplotlib
 Pillow
-torch
+torch==2.1.0
 torchvision

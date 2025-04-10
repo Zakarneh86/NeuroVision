@@ -5,6 +5,13 @@ import cv2
 from PIL import Image
 import tempfile
 
+# ========== PAGE CONFIG ==========
+st.set_page_config(
+    page_title="Brain Tumor Detector",
+    page_icon="🧠",
+    layout="wide"
+)
+
 # Load model
 @st.cache_resource
 def load_model():
@@ -12,12 +19,7 @@ def load_model():
 
 model = load_model()
 
-# ========== PAGE CONFIG ==========
-st.set_page_config(
-    page_title="Brain Tumor Detector",
-    page_icon="🧠",
-    layout="wide"
-)
+
 
 # ========== TITLE ==========
 st.markdown(
