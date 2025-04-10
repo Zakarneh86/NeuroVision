@@ -58,12 +58,7 @@ if uploaded_file:
             cls_id = int(box.cls[0])
             label = results[0].names[cls_id]
             conf = float(box.conf[0])
-            color = "green" if cls_id == 0 else "red"
-            st.sidebar.markdown(
-                f"<div style='padding:10px; border-radius:5px; background-color:{color}; color:white;'>"
-                f"<b>{label.capitalize()}</b><br>Confidence: {conf:.2f}</div>",
-                unsafe_allow_html=True
-            )
+            st.sidebar.success(f"**{label.capitalize()}**\nConfidence: `{conf:.2f}`")
     else:
         st.sidebar.warning("No tumor detected.")
 
