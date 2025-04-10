@@ -59,7 +59,7 @@ if uploaded_file:
         cls_id = int(box.cls[0])
         label = results[0].names[cls_id]
         conf = float(box.conf[0])
-        color = (255, 0, 0) if cls_id == 0 else (0, 0, 255)  # Green or Red
+        color = (255, 200, 100) if cls_id == 0 else (0, 0, 255)  # Green or Red
         cv2.rectangle(image_with_boxes, (x1, y1), (x2, y2), color, 2)
         cv2.putText(image_with_boxes, f"{label} {conf:.2f}",
                     (x1, max(20, y1 - 10)), cv2.FONT_HERSHEY_SIMPLEX,
@@ -70,9 +70,9 @@ if uploaded_file:
     # ========== DISPLAY SIDE-BY-SIDE ==========
     col1, col2 = st.columns(2)
     with col1:
-        st.image(original_img_rgb, caption="📷 Original Image", use_column_width=True)
+        st.image(original_img_rgb, caption="📷 Original Image", use_container_width=True)
     with col2:
-        st.image(prediction_img, caption="🎯 YOLOv8 Prediction", use_column_width=True)
+        st.image(prediction_img, caption="🎯 YOLOv8 Prediction", use_container_width=True)
 
 else:
     st.info("👈 Upload an MRI image to get started.")
