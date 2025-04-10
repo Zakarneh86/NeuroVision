@@ -49,6 +49,6 @@ if uploaded_file is not None:
     # Main: Side-by-side image display
     col1, col2 = st.columns(2)
     with col1:
-        st.image(original_img_rgb, caption="🧾 Original Image", use_column_width=True)
+        st.image(original_img_rgb, caption="🧾 Original Image", use_container_width =True)
     with col2:
-        st.image(prediction_img_rgb, caption="🎯 YOLO Prediction", use_column_width=True)
+        st.image(prediction_img_rgb, caption="🎯 YOLO Prediction", use_container_width =True)
