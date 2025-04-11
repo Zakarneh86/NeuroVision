@@ -76,11 +76,15 @@ if uploaded_file:
     prediction_img = Image.fromarray(cv2.cvtColor(image_with_boxes, cv2.COLOR_BGR2RGB))
 
     # ========== DISPLAY SIDE-BY-SIDE ==========
+    orig_w = original_img_rgb.shape[0:2][0]
+    orig_h = original_img_rgb.shape[0:2][1]
+    pred_w = prediction_img.shape[0:2][0]
+    pred_h = prediction_img.shape[0:2][1]
     col1, col2 = st.columns(2)
     with col1:
         st.image(original_img_rgb, caption="📷 Original Image", use_container_width=False)
     with col2:
-        st.image(prediction_img, caption="🎯 YOLOv8 Prediction", use_container_width=False)
+        st.image(prediction_img.resize(2*(pred_h,pred_w)), caption="🎯 YOLOv8 Prediction", use_container_width=False)
 
 else:
     st.info("👈 Upload an MRI image to get started.")
