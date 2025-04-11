@@ -78,9 +78,9 @@ if uploaded_file:
     # ========== DISPLAY SIDE-BY-SIDE ==========
     col1, col2 = st.columns(2)
     with col1:
-        st.image(original_img_rgb, caption="📷 Original Image", use_container_width=False)
+        st.image(Image.fromarray(original_img_rgb).resize((256, 256)), caption="📷 Original Image", use_container_width=False)
     with col2:
-        st.image(prediction_img, caption="🎯 YOLOv8 Prediction", use_container_width=False)
+        st.image(prediction_img.resize((256, 256)), caption="🎯 YOLOv8 Prediction", use_container_width=False)
 
 else:
     st.info("👈 Upload an MRI image to get started.")
