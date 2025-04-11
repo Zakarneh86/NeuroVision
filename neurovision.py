@@ -76,8 +76,8 @@ if uploaded_file:
     prediction_img = Image.fromarray(cv2.cvtColor(image_with_boxes, cv2.COLOR_BGR2RGB))
 
     # ========== DISPLAY SIDE-BY-SIDE ==========
-    orig_w = original_img_rgb.shape[0:2][0]
-    orig_h = original_img_rgb.shape[0:2][1]
+    orig_h = original_img_rgb.shape[0:2][0]
+    orig_w = original_img_rgb.shape[0:2][1]
     pred_h = prediction_img.size[0:2][0]
     pred_w = prediction_img.size[0:2][1]
     col1, col2 = st.columns(2)
