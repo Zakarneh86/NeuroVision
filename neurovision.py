@@ -80,7 +80,7 @@ if uploaded_file:
     with col1:
         st.image(Image.fromarray(original_img_rgb).resize((214, 214)), caption="📷 Original Image", use_container_width=False)
     with col2:
-        st.image(prediction_img.resize((214, 214)), caption="🎯 YOLOv8 Prediction", use_container_width=Fale)
+        st.image(prediction_img.resize((214, 214)), caption="🎯 YOLOv8 Prediction", use_container_width=False)
 
 else:
     st.info("👈 Upload an MRI image to get started.")
