@@ -82,7 +82,7 @@ if uploaded_file:
     pred_w = prediction_img.size[0:2][1]
     col1, col2 = st.columns(2)
     with col1:
-        st.image(original_img_rgb, caption="📷 Original Image", use_container_width=False)
+        st.image(Image.fromarray(original_img_rgb).resize((2*orig_w, 2*orig_h)), caption="📷 Original Image", use_container_width=False)
     with col2:
         st.image(prediction_img.resize((2*pred_h,2*pred_w)), caption="🎯 YOLOv8 Prediction", use_container_width=False)
 
