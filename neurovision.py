@@ -90,7 +90,7 @@ if uploaded_file:
         with col1:
             st.image(Image.fromarray(original_img_rgb).resize((2*orig_h, 2*orig_w)), caption="📷 Original Image", use_container_width=True)
         with col2:
-            st.image(prediction_img.resize((2*pred_w, 2*pred_h)), caption="🎯 YOLOv8 Prediction", use_container_width=True)
+            st.image(prediction_img.resize((2*pred_h, 2*pred_w)), caption="🎯 YOLOv8 Prediction", use_container_width=True)
 
     except Exception as e:
         error_id = uuid.uuid4().hex[:8].upper()
