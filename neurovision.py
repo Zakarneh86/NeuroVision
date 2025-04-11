@@ -84,11 +84,11 @@ if uploaded_file:
 
         # ========== DISPLAY ==========
         orig_h, orig_w = original_img_rgb.shape[:2]
-        pred_w, pred_h = prediction_img.size
+        pred_h, pred_w = prediction_img.size
 
         col1, col2 = st.columns(2)
         with col1:
-            st.image(Image.fromarray(original_img_rgb).resize((2*orig_h, 2*orig_w)), caption="📷 Original Image", use_container_width=True)
+            st.image(Image.fromarray(original_img_rgb).resize((2*orig_w, 2*orig_h)), caption="📷 Original Image", use_container_width=True)
         with col2:
             st.image(prediction_img.resize((2*pred_h, 2*pred_w)), caption="🎯 YOLOv8 Prediction", use_container_width=True)
 
