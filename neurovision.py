@@ -78,8 +78,8 @@ if uploaded_file:
     # ========== DISPLAY SIDE-BY-SIDE ==========
     orig_w = original_img_rgb.shape[0:2][0]
     orig_h = original_img_rgb.shape[0:2][1]
-    pred_w = prediction_img.size[0:2][0]
-    pred_h = prediction_img.size[0:2][1]
+    pred_h = prediction_img.size[0:2][0]
+    pred_w = prediction_img.size[0:2][1]
     col1, col2 = st.columns(2)
     with col1:
         st.image(original_img_rgb, caption="📷 Original Image", use_container_width=False)
